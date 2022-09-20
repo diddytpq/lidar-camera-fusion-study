@@ -45,7 +45,7 @@ class _Voxelization(torch.autograd.Function):
             num_points_per_voxel: [M] int32 tensor. Only returned when
                 max_points != -1.
         """
-        
+
         voxels = points.new_zeros(
             size=(max_voxels, max_points, points.size(1)))
         coors = points.new_zeros(size=(max_voxels, 3), dtype=torch.int)
@@ -100,7 +100,7 @@ class Voxelization(nn.Module):
             point_cloud_range, dtype=torch.float32)
     
         voxel_size = torch.tensor(voxel_size, dtype=torch.float32)
-        grid_size = (point_cloud_range[3:] -
+        grid_size = (point_cloud_range[3:] -  #[69.12, 39.68, 1] - [0, -39.68, -3, ]
                      point_cloud_range[:3]) / voxel_size
         grid_size = torch.round(grid_size).long()
         input_feat_shape = grid_size[:2]

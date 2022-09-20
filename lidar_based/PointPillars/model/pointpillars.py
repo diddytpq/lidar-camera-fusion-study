@@ -11,10 +11,10 @@ from utils import limit_period
 class PillarLayer(nn.Module):
     def __init__(self, voxel_size, point_cloud_range, max_num_points, max_voxels):
         super().__init__()
-        self.voxel_layer = Voxelization(voxel_size=voxel_size,
-                                        point_cloud_range=point_cloud_range,
-                                        max_num_points=max_num_points,
-                                        max_voxels=max_voxels)
+        self.voxel_layer = Voxelization(voxel_size=voxel_size, #voxel_size=[0.16, 0.16, 4],
+                                        point_cloud_range=point_cloud_range, #point_cloud_range=[0, -39.68, -3, 69.12, 39.68, 1],
+                                        max_num_points=max_num_points,  #max_num_points=32,
+                                        max_voxels=max_voxels) #max_voxels=(16000, 40000)):
 
     @torch.no_grad()
     def forward(self, batched_pts):
@@ -27,6 +27,7 @@ class PillarLayer(nn.Module):
         '''
         pillars, coors, npoints_per_pillar = [], [], []
         for i, pts in enumerate(batched_pts):
+            
             voxels_out, coors_out, num_points_per_voxel_out = self.voxel_layer(pts) 
             # voxels_out: (max_voxel, num_points, c), coors_out: (max_voxel, 3)
             # num_points_per_voxel_out: (max_voxel, )

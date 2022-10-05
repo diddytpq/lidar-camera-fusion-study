@@ -1,6 +1,38 @@
 # lidar-camera-fusion-study
 Study object detection based lidar and camera
 
+## Install spconv 1.2.1
+
+* add .bashrc
+
+	```
+	export PATH=/usr/bin/cmake:$PATH
+	export PATH=/usr/include/boost:$PATH
+
+	export PYTHONPATH=$PYTHONPATH:/home/"work space path"/second.pytorch/
+	```
+
+* add CMakeLists.txt
+
+	```
+	add line 6
+
+	set(CMAKE_CUDA_COMPILER "/usr/local/cuda/bin/nvcc")
+
+* edit torch code  (~/anaconda3/envs/{env_name}}/lib/{env_python_version}/site-packages/torch/share/cmake/Caffe2/public/cuda.cmake)
+
+	```
+	https://blog.csdn.net/epnine/article/details/124464206
+	```
+
+* install spconv
+	```
+	python setup.py bdist_wheel
+	cd /dist
+	pip install file.wheel
+	```
+
+
 ## Run pointPillars
 	
 	cd lidar_based

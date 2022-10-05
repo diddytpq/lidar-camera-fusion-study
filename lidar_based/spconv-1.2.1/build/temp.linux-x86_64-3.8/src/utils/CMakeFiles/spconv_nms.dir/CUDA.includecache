@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../../include/spconv/nms_gpu.h
+
+/home/drcl/workspace/lidar-camera-fusion-study/lidar_based/spconv-1.2.1/src/utils/nms.cu
+cuda_runtime.h
+-
+iostream
+-
+spconv/nms_gpu.h
+-
+vector
+-
+

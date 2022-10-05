@@ -29,7 +29,7 @@ def point_range_filter(pts, point_range=[0, -39.68, -3, 69.12, 39.68, 1]):
     return pts 
 
 
-voxel_size=[0.16, 0.16, 4]
+voxel_size=[0.16, 0.16, 0.16]
 point_cloud_range=[0, -39.68, -3, 69.12, 39.68, 1]
 max_num_points=32
 max_voxels=(16000, 40000)
@@ -57,10 +57,11 @@ for i, pts in enumerate([pc_torch]):
     # print(pts.new_zeros())
     voxels_out, coors_out, num_points_per_voxel_out = voxel_layer(pts)
 
+print(pc_torch.size())
 print(voxels_out.shape)
 print(coors_out.shape)
 print(num_points_per_voxel_out.shape)
 
-print(voxels_out[0])
-print(coors_out[0])
-print(num_points_per_voxel_out[0])
+print(voxels_out[10])
+print(coors_out[10] *torch.tensor(voxel_size))
+print(num_points_per_voxel_out[10])

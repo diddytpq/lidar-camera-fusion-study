@@ -345,35 +345,26 @@ def train(config_path,
                         for name, val in net.get_avg_time_dict().items():
                             print(f"avg {name} time = {val * 1000:.3f} ms")
 
-                    loc_loss_elem = [
-                        float(loc_loss[:, :, i].sum().detach().cpu().numpy() /
-                              batch_size) for i in range(loc_loss.shape[-1])
-                    ]
-                    metrics["runtime"] = {
-                        "step": global_step,
-                        "steptime": np.mean(step_times),
-                    }
+                    loc_loss_elem = [float(loc_loss[:, :, i].sum().detach().cpu().numpy() / batch_size) for i in range(loc_loss.shape[-1])]
+                    metrics["runtime"] = {"step": global_step,
+                                          "steptime": np.mean(step_times),}
                     metrics["runtime"].update(time_metrics[0])
                     step_times = []
                     metrics.update(net_metrics)
                     metrics["loss"]["loc_elem"] = loc_loss_elem
-                    metrics["loss"]["cls_pos_rt"] = float(
-                        cls_pos_loss.detach().cpu().numpy())
-                    metrics["loss"]["cls_neg_rt"] = float(
-                        cls_neg_loss.detach().cpu().numpy())
+                    metrics["loss"]["cls_pos_rt"] = float(cls_pos_loss.detach().cpu().numpy())
+                    metrics["loss"]["cls_neg_rt"] = float(cls_neg_loss.detach().cpu().numpy())
                     if model_cfg.use_direction_classifier:
                         dir_loss_reduced = ret_dict["dir_loss_reduced"].mean()
-                        metrics["loss"]["dir_rt"] = float(
-                            dir_loss_reduced.detach().cpu().numpy())
+                        metrics["loss"]["dir_rt"] = float(dir_loss_reduced.detach().cpu().numpy())
 
-                    metrics["misc"] = {
-                        "num_vox": int(example_torch["voxels"].shape[0]),
-                        "num_pos": int(num_pos),
-                        "num_neg": int(num_neg),
-                        "num_anchors": int(num_anchors),
-                        "lr": float(amp_optimizer.lr),
-                        "mem_usage": psutil.virtual_memory().percent,
-                    }
+
+                    metrics["misc"] = { "num_vox": int(example_torch["voxels"].shape[0]),
+                                        "num_pos": int(num_pos),
+                                        "num_neg": int(num_neg),
+                                        "num_anchors": int(num_anchors),
+                                        "lr": float(amp_optimizer.lr),
+                                        "mem_usage": psutil.virtual_memory().percent,}
                     model_logging.log_metrics(metrics, global_step)
 
                 if global_step % steps_per_eval == 0:
@@ -392,19 +383,15 @@ def train(config_path,
                     detections = []
                     prog_bar = ProgressBar()
                     net.clear_timer()
-                    prog_bar.start((len(eval_dataset) + eval_input_cfg.batch_size - 1)
-                                // eval_input_cfg.batch_size)
+                    prog_bar.start((len(eval_dataset) + eval_input_cfg.batch_size - 1) // eval_input_cfg.batch_size)
                     for example in iter(eval_dataloader):
                         example = example_convert_to_torch(example, float_dtype)
                         detections += net(example)
                         prog_bar.print_bar()
 
                     sec_per_ex = len(eval_dataset) / (time.time() - t)
-                    model_logging.log_text(
-                        f'generate label finished({sec_per_ex:.2f}/s). start eval:',
-                        global_step)
-                    result_dict = eval_dataset.dataset.evaluation(
-                        detections, str(result_path_step))
+                    model_logging.log_text(f'generate label finished({sec_per_ex:.2f}/s). start eval:',global_step)
+                    result_dict = eval_dataset.dataset.evaluation(detections, str(result_path_step))
                     for k, v in result_dict["results"].items():
                         model_logging.log_text("Evaluation {}".format(k), global_step)
                         model_logging.log_text(v, global_step)

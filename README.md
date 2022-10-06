@@ -1,9 +1,9 @@
 # lidar-camera-fusion-study
 Study object detection based lidar and camera
 
-## Install spconv 1.2.1
+## 1. Install spconv 1.2.1
 
-* add .bashrc
+* Edit .bashrc
 
 	```
 	export PATH=/usr/bin/cmake:$PATH
@@ -12,28 +12,42 @@ Study object detection based lidar and camera
 	export PYTHONPATH=$PYTHONPATH:/home/"work space path"/second.pytorch/
 	```
 
-* add CMakeLists.txt
+* Edit CMakeLists.txt
 
 	```
 	add line 6
 
 	set(CMAKE_CUDA_COMPILER "/usr/local/cuda/bin/nvcc")
 
-* edit torch code  (~/anaconda3/envs/{env_name}}/lib/{env_python_version}/site-packages/torch/share/cmake/Caffe2/public/cuda.cmake)
+* Edit torch code  (~/anaconda3/envs/{env_name}}/lib/{env_python_version}/site-packages/torch/share/cmake/Caffe2/public/cuda.cmake)
 
 	```
 	https://blog.csdn.net/epnine/article/details/124464206
 	```
 
-* install spconv
+* Install spconv
 	```
 	python setup.py bdist_wheel
 	cd /dist
 	pip install file.wheel
 	```
 
+## 2. Run Second
+	cd lidar_based/second.pytorch/second
 
-## Run pointPillars
+* Make train data
+	```
+	python create_data.py kitti_data_prep --root_path=./data/ImageSets/kitti_data/
+	
+	```
+* Train model
+	```
+	python ./pytorch/train.py train --config_path=./configs/all.fhd.config --model_dir=./train_model/all_model
+	```
+
+
+
+## 3. Run pointPillars
 	
 	cd lidar_based
 	python test.py --ckpt pretrained/epoch_160.pth --pc_path dataset/testing/velodyne/000000.bin

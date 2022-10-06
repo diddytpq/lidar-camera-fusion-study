@@ -16,9 +16,12 @@ weight/
 
 # Logs and databases #
 testing/*
-lidar_based/PointPillars/dataset/training/
-lidar_based/PointPillars/dataset/testing/
+src/lidar_based/PointPillars/dataset/training/
+src/lidar_based/PointPillars/dataset/testing/
 
+src/lidar_based/second.pytorch/second/train_model/
+src/lidar_based/second.pytorch/second/data/ImageSets/
+src/lidar_based/second.pytorch/second/pretrained_models_v1.5/
 ######################
 
  

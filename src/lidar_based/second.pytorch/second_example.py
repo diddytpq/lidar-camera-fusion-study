@@ -11,8 +11,8 @@ from second.protos import pipeline_pb2
 from second.utils import config_tool
 
 # config_path = "/home/drcl/workspace/lidar-camera-fusion-study/lidar_based/second.pytorch/configs/car.lite.nb.config"
-config_path = "/home/drcl/workspace/lidar-camera-fusion-study/lidar_based/second.pytorch/second/train_model/all_1/pipeline.config"
-ckpt_path = "/home/drcl/workspace/lidar-camera-fusion-study/lidar_based/second.pytorch/second/train_model/all_1/voxelnet-55710.tckpt"
+config_path = "/home/drcl/workspace/lidar-camera-fusion-study/src/lidar_based/second.pytorch/second/train_model/all_1/pipeline.config"
+ckpt_path = "/home/drcl/workspace/lidar-camera-fusion-study/src/lidar_based/second.pytorch/second/train_model/all_1/voxelnet-55710.tckpt"
 
 
 config = pipeline_pb2.TrainEvalPipelineConfig()
@@ -58,21 +58,21 @@ coords = torch.tensor(coords, dtype=torch.int32, device=device)
 num_points = torch.tensor(num_points, dtype=torch.int32, device=device)
 
 
-# example = {
-#     "anchors": anchors,
-#     "voxels": voxels,
-#     "num_points": num_points,
-#     "coordinates": coords,
-# }
-# pred = net(example)[0]
+example = {
+    "anchors": anchors,
+    "voxels": voxels,
+    "num_points": num_points,
+    "coordinates": coords,
+}
+pred = net(example)[0]
 
 
-# boxes_lidar = pred["box3d_lidar"].detach().cpu().numpy()
-# vis_voxel_size = [0.1, 0.1, 0.1]
-# vis_point_range = [-50, -30, -3, 50, 30, 1]
-# bev_map = simplevis.point_to_vis_bev(points, vis_voxel_size, vis_point_range)
-# bev_map = simplevis.draw_box_in_bev(bev_map, vis_point_range, boxes_lidar, [0, 255, 0], 2)
+boxes_lidar = pred["box3d_lidar"].detach().cpu().numpy()
+vis_voxel_size = [0.1, 0.1, 0.1]
+vis_point_range = [-50, -30, -3, 50, 30, 1]
+bev_map = simplevis.point_to_vis_bev(points, vis_voxel_size, vis_point_range)
+bev_map = simplevis.draw_box_in_bev(bev_map, vis_point_range, boxes_lidar, [0, 255, 0], 2)
 
 
-# plt.imshow(bev_map)
-# plt.show()
+plt.imshow(bev_map)
+plt.show()
